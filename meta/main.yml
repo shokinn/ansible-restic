@@ -1,12 +1,14 @@
 ---
 galaxy_info:
-  author: donat-b, Pawel Krupa (paulfantom)
+  author: donat-b, Pawel Krupa (paulfantom), Philip Henning (shokinn)
   description: Fast, secure, efficient backup program
   license: MIT
   min_ansible_version: 2.2
   platforms:
   - name: Ubuntu
     versions:
+    - jammy
+    - focal
     - bionic
     - xenial
   - name: EL
