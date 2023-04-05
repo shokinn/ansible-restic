@@ -2,14 +2,19 @@
 
 # Ansible Role: restic
 
+#ToDo replace with GitHub build status badge!
 [![Build Status](https://travis-ci.org/paulfantom/ansible-restic.svg?branch=master)](https://travis-ci.org/paulfantom/ansible-restic)
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
-[![Ansible Role](https://img.shields.io/badge/ansible%20role-paulfantom.restic-blue.svg)](https://galaxy.ansible.com/paulfantom/restic/)
-[![GitHub tag](https://img.shields.io/github/tag/paulfantom/ansible-restic.svg)](https://github.com/paulfantom/ansible-restic/tags)
+[![GitHub tag](https://img.shields.io/github/tag/shokinn/ansible-restic.svg)](https://github.com/shokinn/ansible-restic/tags)
+<!-- [![Ansible Role](https://img.shields.io/badge/ansible%20role-paulfantom.restic-blue.svg)](https://galaxy.ansible.com/paulfantom/restic/) -->
 
-## IMPORTANT - Project archived
+## IMPORTANT - Project not regularly maintained
 
-Project is archived due to my lack of interest in maintaining it (I am not using it anymore). I will happily unarchive it if anyone is interested in maintaining it. If you are such person, write me an email at paulfantom@gmail.com.
+I've just forked this project from [@paulphantom](https://github.com/paulfantom).  
+I use it in my own playbooks but I won't provide regular maintenance, just as much as I need it to keep it running safely.  
+So use it at your own risk!
+
+P.S. This role is neither published at ansible galaxy nor it will be in the future.
 
 ## Description
 
@@ -64,7 +69,7 @@ Use it in a playbook as follows:
 ```yaml
 - hosts: all
   roles:
-    - paulfantom.restic
+    - shokinn.app.restic
 ```
 
 ## Local Testing
