@@ -1,5 +1,6 @@
 ---
 - name: Deploy cron script
+  become: true
   ansible.builtin.template:
     src: 'restic.cron.j2'
     dest: '/etc/cron.d/restic-{{ item.name }}'
@@ -7,6 +8,7 @@
   no_log: true
 
 - name: Deploy helper commands
+  become: true
   ansible.builtin.template:
     src: 'restic.helper.j2'
     dest: "{{ restic_install_path }}/restic-{{ item.name }}"
@@ -16,6 +18,7 @@
   no_log: true
 
 - name: Check if repo is already initialized
+  become: true
   ansible.builtin.command: "{{ restic_install_path }}/restic-{{ item.name }} snapshots"
   changed_when: false
   failed_when: false
@@ -24,6 +27,7 @@
   register: repo
 
 - name: Initialize restic repositories
+  become: true
   ansible.builtin.command: "{{ restic_install_path }}/restic-{{ item.name }} init"
   ignore_errors: true
   no_log: true

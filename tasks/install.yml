@@ -1,10 +1,12 @@
 ---
 - name: Ensure restic group is present
+  become: true
   ansible.builtin.group:
     name: "{{ restic_group }}"
     system: true
 
 - name: Ensure restic user is present
+  become: true
   ansible.builtin.user:
     name: "{{ restic_user }}"
     group: "{{ restic_group }}"
@@ -16,11 +18,13 @@
   when: restic_user != 'root'
 
 - name: Ensure restic installation directory exist
+  become: true
   ansible.builtin.file:
     state: 'directory'
     path: '{{ restic_install_path }}'
 
 - name: Ensure restic user can write to log dirs if defined
+  become: true
   ansible.builtin.file:
     state: 'directory'
     path: '{{ item | dirname }}'
@@ -32,6 +36,7 @@
     - item is not match("/dev/.*")
 
 - name: Ensure restic user can write to log files if defined
+  become: true
   ansible.builtin.file:
     state: 'touch'
     path: '{{ item }}'
@@ -63,6 +68,7 @@
   check_mode: false
 
 - name: Propagate restic binary
+  become: true
   ansible.builtin.copy:
     src: "/tmp/restic_{{ restic_version }}_{{ go_arch }}"
     dest: '{{ restic_install_path }}/restic'
@@ -71,6 +77,7 @@
     group: '{{ restic_group }}'
 
 - name: Install libcap on Debian systems
+  become: true
   ansible.builtin.apt:
     name: "libcap2-bin"
     state: present
@@ -80,6 +87,7 @@
     - restic_user != 'root'
 
 - name: Set proper capabilities for restic binary
+  become: true
   community.general.capabilities:
     path: '{{ restic_install_path }}/restic'
     capability: cap_dac_read_search+ep
