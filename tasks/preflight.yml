@@ -1,7 +1,7 @@
 ---
 - block:
   - name: get latest release
-    uri:
+    ansible.builtin.uri:
       url: "https://api.github.com/repos/restic/restic/releases/latest"
       method: GET
       return_content: true
@@ -14,22 +14,22 @@
     delegate_to: localhost
 
   - name: "Set restic version to {{ _latest_release.json.tag_name[1:] }}"
-    set_fact:
+    ansible.builtin.set_fact:
       restic_version: "{{ _latest_release.json.tag_name[1:] }}"
   when: restic_version == "latest"
 
 - name: Get checksum list from github
-  get_url:
+  ansible.builtin.get_url:
     url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/SHA256SUMS'
     dest: /tmp/restic-{{ restic_version }}-SHA256SUMS
 
 - name: Set checksum variable
-  slurp:
+  ansible.builtin.slurp:
     src: "/tmp/restic-{{ restic_version }}-SHA256SUMS"
   register: _checksums
 
 - name: "Get checksum for {{ go_arch }} architecture"
-  set_fact:
+  ansible.builtin.set_fact:
     restic_checksum: "{{ item.split(' ')[0] }}"
   with_items: "{{ (_checksums.content | b64decode).split('\n') }}"
   when: "('restic_' + restic_version + '_linux_' + go_arch + '.bz2') in item"
