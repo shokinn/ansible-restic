@@ -1,0 +1,48 @@
+---
+- name: Default use-case scenario
+  hosts: all
+  any_errors_fatal: true
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+
+    - name: Wait for systemd to complete initialization.  # noqa 303
+      command: systemctl is-system-running
+      register: systemctl_status
+      until: >
+        'running' in systemctl_status.stdout or
+        'degraded' in systemctl_status.stdout
+      retries: 30
+      delay: 5
+      when: ansible_service_mgr == 'systemd'
+      changed_when: false
+      failed_when: systemctl_status.rc > 1
+    
+    - name: Ensure cron.d exists in docker containers
+      file:
+        state: 'directory'
+        path: '/etc/cron.d'
+
+  roles:
+    - shokinn.restic
+
+  vars:
+    restic_repos:
+      - name: local-example
+        url: "/tmp/restic"
+        password: "correcthorsebatterystaple"
+        jobs:
+          - command: 'restic backup /srv'
+            at: '0 1  * * *'
+        retention_time: '17 5 * * *'
+        retention:
+          last: 2
+          hourly: 4
+          weekly: 9
+          monthly: 3
+          yearly: 10
+          tags:
+            - special
+            - test
