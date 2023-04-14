@@ -20,12 +20,12 @@
 
 - name: Get checksum list from github
   get_url:
-      url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/SHA256SUMS'
-      dest: /tmp/restic-{{ restic_version }}-SHA256SUMS
+    url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/SHA256SUMS'
+    dest: /tmp/restic-{{ restic_version }}-SHA256SUMS
 
 - name: Set checksum variable
-  slurp: 
-      src: "/tmp/restic-{{ restic_version }}-SHA256SUMS"
+  slurp:
+    src: "/tmp/restic-{{ restic_version }}-SHA256SUMS"
   register: _checksums
 
 - name: "Get checksum for {{ go_arch }} architecture"
