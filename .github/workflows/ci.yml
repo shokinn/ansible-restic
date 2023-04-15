@@ -49,7 +49,6 @@ jobs:
           - debian11
           - debian10
           - debian9
-          - debian8
           - fedora37
           - fedora36
           - fedora35
@@ -60,7 +59,6 @@ jobs:
           - ubuntu2004
           - ubuntu1804
           - ubuntu1604
-          - ubuntu1404
 
     steps:
       - name: Check out the codebase.
