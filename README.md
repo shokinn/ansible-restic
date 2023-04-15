@@ -2,10 +2,9 @@
 
 # Ansible Role: restic
 
-#ToDo replace with GitHub build status badge!
-[![Build Status](https://travis-ci.org/paulfantom/ansible-restic.svg?branch=master)](https://travis-ci.org/paulfantom/ansible-restic)
+[![CI Branches](https://github.com/shokinn/shokinn.app.restic/actions/workflows/ci-branches.yml/badge.svg)](https://github.com/shokinn/shokinn.app.restic/actions/workflows/ci-branches.yml)
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
-[![GitHub tag](https://img.shields.io/github/tag/shokinn/ansible-restic.svg)](https://github.com/shokinn/ansible-restic/tags)
+[![GitHub tag](https://img.shields.io/github/tag/shokinn/shokinn.app.restic.svg)](https://github.com/shokinn/shokinn.app.restic/tags)
 <!-- [![Ansible Role](https://img.shields.io/badge/ansible%20role-paulfantom.restic-blue.svg)](https://galaxy.ansible.com/paulfantom/restic/) -->
 
 ## IMPORTANT - Project not regularly maintained
@@ -29,18 +28,18 @@ Deploy [restic](https://restic.net/) - fast, secure, efficient backup program.
 
 All variables which can be overridden are stored in [defaults/main.yml](defaults/main.yml) file as well as in table below.
 
-| Name           | Default Value | Description                        |
-| -------------- | ------------- | -----------------------------------|
-| `restic_version` | 0.9.6 | restic package version. Also accepts latest as parameter. |
-| `restic_user` | "root" | system user to run restic |
-| `restic_group` | "root" | system group to run restic |
-| `restic_shell` | "/bin/false" | the shell for the restic user, change this if you want to be able to su to it |
-| `restic_install_path` | "/usr/local/bin" | directory where restic binary will be installed |
-| `restic_cron_mailto` | restic_user | who to mail results of the restic crons to, set to "" to not mail |
-| `restic_cron_stdout_file` | null | what file to log restic output to, null means include in mailto, use /dev/null to discard |
-| `restic_cron_stderr_file` | null | what file to log restic errors to, null means include in mailto, use /dev/null to discard |
-| `restic_sudo_command_whitelist` | [] | whitelist of commands restic is allowed to run with sudo |
-| `restic_repos` | [] | restic repositories and cron jobs configuration. More in [defaults/main.yml](defaults/main.yml) |
+| Name                            | Default Value    | Description                                                                                     |
+| ------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------- |
+| `restic_version`                | 0.15.1           | restic package version. Also accepts latest as parameter.                                       |
+| `restic_user`                   | "root"           | system user to run restic                                                                       |
+| `restic_group`                  | "root"           | system group to run restic                                                                      |
+| `restic_shell`                  | "/bin/false"     | the shell for the restic user, change this if you want to be able to su to it                   |
+| `restic_install_path`           | "/usr/local/bin" | directory where restic binary will be installed                                                 |
+| `restic_cron_mailto`            | restic_user      | who to mail results of the restic crons to, set to "" to not mail                               |
+| `restic_cron_stdout_file`       | null             | what file to log restic output to, null means include in mailto, use /dev/null to discard       |
+| `restic_cron_stderr_file`       | null             | what file to log restic errors to, null means include in mailto, use /dev/null to discard       |
+| `restic_sudo_command_whitelist` | []               | whitelist of commands restic is allowed to run with sudo                                        |
+| `restic_repos`                  | []               | restic repositories and cron jobs configuration. More in [defaults/main.yml](defaults/main.yml) |
 
 ## Security
 
@@ -63,13 +62,26 @@ For example, if you have a restic repository named `testrepo`, you could use the
 
 ## Example
 
+### requirements.yml
+
+Add this role as following to your `requirements.yml`:  
+```yaml
+---
+roles:
+  - name: shokinn.app.restic.git
+    scm: git
+    src: git+https://github.com/shokinn/shokinn.app.restic.git
+    version: '0.17.0'
+```
+
 ### Playbook
 
 Use it in a playbook as follows:
 ```yaml
+---
 - hosts: all
   roles:
-    - shokinn.app.restic
+    - shokinn.app.restic.git
 ```
 
 ## Local Testing
@@ -77,18 +89,18 @@ Use it in a playbook as follows:
 The preferred way of locally testing the role is to use Docker and [molecule](https://github.com/metacloud/molecule) (v2.x). You will have to install Docker on your system. See Get started for a Docker package suitable to for your system.
 All packages you need to can be specified in one line:
 ```sh
-pip install ansible 'ansible-lint>=3.4.15' 'molecule>2.13.0' docker 'testinfra>=1.7.0' jmespath
+pip install ansible ansible-core 'ansible-lint>=3.4.15' 'molecule>2.13.0' 'molecule[docker]' docker 'pytest-testinfra>=7.0.0'
 ```
-This should be similar to one listed in `.travis.yml` file in `install` section.
+This should be similar to one listed in `.github/workflows/ci-*.yml` file in `Install test dependencies` section.
 After installing test suit you can run test by running
 ```sh
 molecule test --all
 ```
-For more information about molecule go to their [docs](http://molecule.readthedocs.io/en/latest/).
+For more information about molecule go to their [docs](http://molecule.readthedocs.io/en/latest/), as well as [Jeff Geerling's](https://github.com/geerlingguy/) [molecule blog article](https://www.jeffgeerling.com/blog/2018/testing-your-ansible-roles-molecule), since I use mostly his CI example and resources.
 
-## Travis CI
+## [GitHub Actions - CI](https://github.com/shokinn/shokinn.app.restic/actions)
 
-Combining molecule and travis CI allows to test how new PRs will behave when used with multiple ansible versions and multiple operating systems. This also allows to create test scenarios for different role configurations. As a result test matrix is quite large and takes more time than local testing, so please be patient.
+Combining molecule and [GitHub Actions](https://github.com/shokinn/shokinn.app.restic/actions) allows to test how new PRs will behave when used with multiple ansible versions and multiple operating systems. This also allows to create test scenarios for different role configurations. As a result test matrix is quite large and takes more time than local testing, so please be patient.
 
 ## Contributing
 

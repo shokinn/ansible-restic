@@ -1,6 +1,16 @@
 # Change Log
 
-## [**Next release**](https://galaxy.ansible.com/paulfantom/restic)
+## [**Upcoming release**](https://github.com/shokinn/shokinn.app.restic#requirements.yml)
+
+## [0.17.0](https://github.com/shokinn/shokinn.app.restic#requirements.yml) (2023-04-15)
+**Implemented enhancements:**
+
+- Rewrite CI to GitHub Actions (TOX not implemented yet)
+- Updated Restic to 0.15.1
+- Updated README
+- Add .vscode to .gitignore
+
+## [0.16.0](https://galaxy.ansible.com/paulfantom/restic) (???)
 
 **Merged pull requests:**
 
