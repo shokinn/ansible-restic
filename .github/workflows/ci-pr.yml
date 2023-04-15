@@ -1,5 +1,5 @@
 ---
-name: CI Branches
+name: CI Pull requests
 'on':
   pull_request:
     types:
