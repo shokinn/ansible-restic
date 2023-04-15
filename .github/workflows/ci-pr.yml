@@ -1,12 +1,11 @@
 ---
-name: CI
+name: CI Branches
 'on':
   pull_request:
-  push:
-    branches:
-      - '*'
-  schedule:
-    - cron: "0 7 * * 0"
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 defaults:
   run:
@@ -74,8 +73,15 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install ansible ansible-core ansible-lint ansible-vault molecule[docker] docker pytest-testinfra
 
-      - name: Run Molecule tests.
-        run: molecule test
+      - name: Run Molecule default scenario.
+        run: molecule test -s default
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}
+
+      - name: Run Molecule alternative scenario.
+        run: molecule test -s alternative
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
