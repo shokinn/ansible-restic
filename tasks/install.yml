@@ -90,7 +90,7 @@
   become: true
   community.general.capabilities:
     path: '{{ restic_install_path }}/restic'
-    capability: cap_dac_read_search+ep
+    capability: cap_dac_read_search=ep
     state: present
   when:
     - restic_user != 'root'
