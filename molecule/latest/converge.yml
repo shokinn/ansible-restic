@@ -1,9 +1,11 @@
 ---
-- name: Default use-case scenario
+- name: Latest use-case scenario
   hosts: all
   any_errors_fatal: true
+
   roles:
-    - ansible-restic
+    - shokinn.restic
+
   vars:
     restic_version: latest
     restic_user: restic
